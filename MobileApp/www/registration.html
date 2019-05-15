@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script type="text/javascript" src="cordova.js"></script>
+<!--  <script type="text/javascript" src="js/index.js" charset="utf-8"></script>-->
+  <!-- <script src="components/loader.js"></script> -->
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+  <!-- <link rel="stylesheet" href="components/loader.css"> -->
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+
+<!--===============================================================================================-->
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+  <script>
+
+var dataS = '';
+
+function toUTF8Array(str) {
+    var utf8 = [];
+    for (var i=0; i < str.length; i++) {
+        var charcode = str.charCodeAt(i);
+        if (charcode < 0x80) utf8.push(charcode);
+        else if (charcode < 0x800) {
+            utf8.push(0xc0 | (charcode >> 6),
+                      0x80 | (charcode & 0x3f));
+        }
+        else if (charcode < 0xd800 || charcode >= 0xe000) {
+            utf8.push(0xe0 | (charcode >> 12),
+                      0x80 | ((charcode>>6) & 0x3f),
+                      0x80 | (charcode & 0x3f));
+        }
+        // surrogate pair
+        else {
+            i++;
+            // UTF-16 encodes 0x10000-0x10FFFF by
+            // subtracting 0x10000 and splitting the
+            // 20 bits of 0x0-0xFFFFF into two halves
+            charcode = 0x10000 + (((charcode & 0x3ff)<<10)
+                      | (str.charCodeAt(i) & 0x3ff))
+            utf8.push(0xf0 | (charcode >>18),
+                      0x80 | ((charcode>>12) & 0x3f),
+                      0x80 | ((charcode>>6) & 0x3f),
+                      0x80 | (charcode & 0x3f));
+        }
+    }
+    return utf8;
+}
+
+
+function synch(){
+    var socket = new Socket();
+        socket.open(
+          "35.204.205.60",
+          6666,
+          function() {
+            console.log("Connected");
+            var dataString = dataS;
+
+            var data = new toUTF8Array(dataString)
+            socket.write(data);
+            console.log("Socket sent");
+            socket.shutdownWrite();
+          },
+          function(errorMessage) {
+          	alert("Подключитесь к интернету");
+          	location.href='registration.html';
+            console.log("No connection");
+          });
+}
+
+
+
+  function save() {
+      var name = document.getElementById('username').value;
+      localStorage.setItem('username', name);
+      var company = document.getElementById('company').value;
+      localStorage.setItem('company', company);
+      var dolj = document.getElementById('work').value;
+      localStorage.setItem('work', dolj);
+      var nomer = document.getElementById('phone').value;
+      localStorage.setItem('phone', nomer);
+      console.log("Saved into base");
+      dataS = "newuser=" + name + "=" + company + "=" + dolj + "=" + nomer;
+      synch();
+      location.href='index.html';
+  };
+  </script>
+</head>
+<body>
+<div class="wrap-login100">
+<!--				<form class="login100-form validate-form">-->
+					<span class="login100-form-logo">
+						<img height="80%" src="img/logo.png">
+					</span>
+                    <div class="wrap-input100" data-validate = "Введите ФИО" required>
+						<input class="input100" type="text" id="username" placeholder="ФИО">
+						<span class="focus-input100" data-placeholder="&#xf205;"></span>
+					</div>
+
+					<div class="wrap-input100" data-validate = "Название компании" required>
+						<input class="input100" type="text" id="company" placeholder="Компания">
+						<span class="focus-input100" data-placeholder="&#xf112;"></span>
+					</div>
+
+					<div class="wrap-input100" data-validate="Должность" required>
+						<input class="input100" type="text" id="work" placeholder="Должность">
+						<span class="focus-input100" data-placeholder="&#xf174;"></span>
+					</div>
+
+                    <div class="wrap-input100" required>
+						<input class="input100" type="text" id="phone" placeholder="Телефон">
+						<span class="focus-input100" data-placeholder="&#xf2cc;"></span>
+					</div>
+
+<!--					<div class="container-login100-form-btn">-->
+						<button class="login100-form-btn" onclick="save();">
+							Сохранить
+						</button>
+<!--					</div>-->
+<!--				</form>-->
+			</div>
+</body>
+</html>
