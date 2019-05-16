@@ -16,15 +16,30 @@ services:
         max-file: "10"
     depends_on:
       - flask-add
-  flask-add:
-    build: ./flask-adding
-    command: python3 -u ./flask-adding/app.py
-    ports:
-      - "5000:5000"
-    volumes:
-      - .:/aefdemo
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "10"
+  database:
+      image: mongo:3.0.2
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "1m"
+          max-file: "10"
+    mongo-express:
+      image: mongo-express
+      environment:
+          - ME_CONFIG_MONGODB_SERVER=database
+          - ME_CONFIG_MONGODB_PORT=27017
+          - ME_CONFIG_MONGODB_ENABLE_ADMIN=false
+          - ME_CONFIG_MONGODB_AUTH_DATABASE=buyqaw
+          - ME_CONFIG_BASICAUTH_USERNAME=root
+          - ME_CONFIG_BASICAUTH_PASSWORD=1234
+      ports:
+        - "8081:8081"
+      links:
+        - database
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "1m"
+          max-file: "10"
+      depends_on:
+        - database

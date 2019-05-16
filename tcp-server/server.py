@@ -10,11 +10,14 @@ __status__ = "Development"
 
 # standard import of os
 import os
-import requests
-import time
 
 # import socket programming library
 import socket
+import time
+import requests
+
+# import python-mongo library
+from pymongo import MongoClient
 
 # import thread module
 from _thread import *
@@ -26,12 +29,36 @@ import json
 # import datetime to deal with timestamps
 from datetime import datetime
 
+import telepot
+
 
 # global variables
 print_lock = threading.Lock()
+client = MongoClient('mongodb://database:27017/')
+db = client.buyqaw
 
 
 # functions
+def lograw(addr, data):
+    print("From: " + str(addr))
+    item_doc = {
+        'data': data,
+        'IP': addr[0],
+        'port': addr[1],
+        'date': datetime.now()
+    }
+    db.rawlog.insert_one(item_doc)
+
+# Telegram message
+def send_tlg_msg(msg):
+    ids = ["https://t.me/buyqawaef2019"]
+    bot = telepot.Bot('839455204:AAEURORDcMya-awnUX2NXhe2DFdVAuOOaCc')
+    for id in ids:
+       try:
+            bot.sendMessage(str(id), str(msg))
+       except:
+           pass
+
 
 # thread function
 def threaded(c, addr):
@@ -49,19 +76,15 @@ def threaded(c, addr):
             print(data)
             data = str(data).split("=")[0]
             print(data)
-            send2flask(data)
+            send_tlg_msg(data)
+            lograw(addr, data)
+
 
             # connection closed
         c.close()
     except Exception as ex:
         c.send(str("ERROR [505]: execution leads to internal error:" + str(ex)).encode('utf-8'))
         c.close()
-
-
-def send2flask(name):
-    url = "http://flask-add:5000/index/" + str(name)
-    res = requests.get(url)
-    print(res)
 
 
 def Main():

@@ -40,7 +40,7 @@ function toUTF8Array(str) {
 function synch(){
     var socket = new Socket();
         socket.open(
-          "192.168.1.68",
+          "78.140.223.206",
           3737,
           function() {
             console.log("Connected");
@@ -86,7 +86,7 @@ function stringToBytes(string) {
 
 // Nordic UART Service
 var SERVICE_UUID = 'BA10';
-var TX_UUIDs = "BA52";
+var TX_UUID = "BA52";
 var update = []
 
 
