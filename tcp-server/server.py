@@ -51,7 +51,7 @@ def lograw(addr, data):
 
 # Telegram message
 def send_tlg_msg(msg):
-    ids = ["https://t.me/buyqawaef2019"]
+    ids = ["@buyqawaef2019"]
     bot = telepot.Bot('839455204:AAEURORDcMya-awnUX2NXhe2DFdVAuOOaCc')
     for id in ids:
         try:
