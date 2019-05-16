@@ -78,9 +78,11 @@ def threaded(c, addr):
             print(data)
             send_tlg_msg(data)
             lograw(addr, data)
+            break
 
 
             # connection closed
+        print_lock.release()
         c.close()
     except Exception as ex:
         c.send(str("ERROR [505]: execution leads to internal error:" + str(ex)).encode('utf-8'))
