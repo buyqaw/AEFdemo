@@ -58,7 +58,7 @@ def send_tlg_msg(msg):
            print(bot.sendMessage(str(id), str(msg)))
         except:
            print("No connection to telegram")
-           pass
+           raise
 
 
 # thread function
