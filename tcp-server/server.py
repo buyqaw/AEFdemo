@@ -52,13 +52,16 @@ def lograw(addr, data):
 # Telegram message
 def send_tlg_msg(msg):
     ids = ["@buyqawaef2019"]
-    bot = telepot.Bot('839455204:AAEURORDcMya-awnUX2NXhe2DFdVAuOOaCc')
+    head = "https://api.telegram.org/bot839455204:AAEURORDcMya-awnUX2NXhe2DFdVAuOOaCc/sendMessage?chat_id=@buyqawaef2019&text="
+    # bot = telepot.Bot('839455204:AAEURORDcMya-awnUX2NXhe2DFdVAuOOaCc')
     for id in ids:
         try:
-           print(bot.sendMessage(str(id), str(msg)))
+            from requests import Request, Session
+            # print(bot.sendMessage(str(id), str(msg)))
+            print(requests.get(head+msg))
         except:
-           print("No connection to telegram")
-           raise
+            print("No connection to telegram")
+            raise
 
 
 # thread function
