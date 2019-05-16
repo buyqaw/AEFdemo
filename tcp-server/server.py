@@ -58,7 +58,7 @@ def send_tlg_msg(msg):
         try:
             from requests import Request, Session
             # print(bot.sendMessage(str(id), str(msg)))
-            msg = "Ровно в " + str(datetime.now()) + " через дверь прошел пользователь под именем *" + msg + "*. Спасибо!"
+            msg = "Ровно в " + str(datetime.now()) + " через дверь прошел пользователь под именем " + msg
             print(requests.get(head+msg))
         except:
             print("No connection to telegram")
