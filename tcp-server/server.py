@@ -54,9 +54,10 @@ def send_tlg_msg(msg):
     ids = ["https://t.me/buyqawaef2019"]
     bot = telepot.Bot('839455204:AAEURORDcMya-awnUX2NXhe2DFdVAuOOaCc')
     for id in ids:
-       try:
-            bot.sendMessage(str(id), str(msg))
-       except:
+        try:
+           print(bot.sendMessage(str(id), str(msg)))
+        except:
+           print("No connection to telegram")
            pass
 
 
