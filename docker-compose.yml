@@ -5,6 +5,7 @@ services:
     command: python3 -u ./tcp-server/server.py
     ports:
       - "3737:3737"
+      - "4458:4458"
     volumes:
       - .:/aefdemo
     links:
